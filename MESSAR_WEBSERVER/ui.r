@@ -41,7 +41,7 @@ shinyUI(navbarPage("MESSAR 0.1 (MEtabolite SubStructure Auto-Recommender)",
         br(),
         
         numericInput("Relative", h4("Relative intensity threshold (base peak %)"),
-                    min = 0, max = 99, value = 5, width = '500px'),
+                    min = 0, max = 99, value = 1, width = '500px'),
         br(),
         
         numericInput("ppm_search", h4("Tolerance [ppm] for masses and mass differences"),
@@ -119,12 +119,6 @@ shinyUI(navbarPage("MESSAR 0.1 (MEtabolite SubStructure Auto-Recommender)",
        plotOutput("plot_selected", width = '750px', height = "900px"),
        br(), offset=1)),
     
-   tabPanel("About",
-
-   h3("Welcome to the substructure recommendation tool!"),
-   h4("This is an automated approach for substructure recommendation from MS/MS spectra of (unknown) small metabolites. 
-      Substructure recommendations are computed based on associations between spectral features and structural features.
-      Such associations are learned from GNPS spectral library (https://gnps.ucsd.edu) containing mass spectra of about 4000 known metabolites. 
-      We are open to collaborate with groups that have their own training datasets to which we could apply this approach!")
-    )  
+   tabPanel("Help",includeMarkdown("Help.Rmd")),
+   tabPanel("About",includeMarkdown("About.Rmd"))
 ))

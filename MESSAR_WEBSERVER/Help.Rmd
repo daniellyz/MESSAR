@@ -1,0 +1,23 @@
+### Help
+
+Welcome to MESSAR, the substructure recommendation tool!
+
+This is an automated approach for substructure recommendation from MS/MS spectra of (unknown) small metabolites. 
+
+Our goal is not to identify the structure of the entire molecule, but to propose potential substructures to experts, helping them better characterize the unknown e.g. identifying functional classes, grouping similar spectra and supporting NMR-based de novo identification etc.
+
+Substructure recommendations are computed based on 18731 associations between spectral features and structural features, i.e. rules. These rules are discovered from GNPS spectral library (https://gnps.ucsd.edu) containing mass spectra of about 4000 known metabolites using association rule mining.
+
+### Notice
+MESSAR is developed for processing individual **positive ion mode** high-resolution LC-MS/MS spectrum. 
+
+### A) Start a run
+
+1. MS/MS spectrum is compulsory for running the web tool. It must be in either format: i) one column of m/z value ii) two columns m/z - intensity, separated by tab or space. Example:
+<a href="https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER/example_casmi_2017_172.txt" target="_blank"> CASMI 2017_molecule 172 </a>  
+
+2. Mass differences (losses) used for substructure prediction can be specified (values in one column). It is useful when users are only interested in certain mass differences in the spectrum. If not specified, all mass differences in the spectrum will be used to compute substructures.
+
+3. Precursor m/z is a recommended input (if known by users). It can be important because when MS/MS spectra do not contain the precursor ion, mass differences between precursor and fragments i.e. neutral losses can be overlooked.
+
+4. 

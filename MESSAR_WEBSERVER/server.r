@@ -107,7 +107,7 @@ shinyServer(function(input, output,clientData, session) {
   
 observeEvent(input$exampleButton, {
   
-  fileText <- paste(readLines("https://raw.githubusercontent.com/daniellyz/MESSAR/master/example_casmi_2017_203.txt"), collapse = "\n")
+  fileText <- paste(readLines("https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER/example_casmi_2017_172.txt"), collapse = "\n")
   updateTextAreaInput(session, "blank_file1", value = fileText)
 })  
   
