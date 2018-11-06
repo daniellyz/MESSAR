@@ -1,12 +1,12 @@
 ### Help
 
-Welcome to MESSAR, the substructure recommendation tool!
+#### Welcome to MESSAR, the substructure recommendation tool!
 
-This is an automated approach for substructure recommendation from MS/MS spectra of (unknown) small metabolites. 
+#### This is an automated approach for substructure recommendation from MS/MS spectra of (unknown) small metabolites. 
 
-Our goal is not to identify the structure of the entire molecule, but to propose potential substructures to experts, helping them better characterize the unknown e.g. identifying functional classes, grouping similar spectra and supporting NMR-based de novo identification etc.
+#### Our goal is not to identify the structure of the entire molecule, but to propose potential substructures to experts, helping them better characterize the unknown e.g. identifying functional classes, grouping similar spectra and supporting NMR-based de novo identification etc.
 
-Substructure recommendations are computed based on 18731 associations between spectral features and structural features. We call these associations "rules". These rules are discovered from GNPS spectral library (https://gnps.ucsd.edu) containing mass spectra of about 4000 known metabolites using association rule mining.
+#### Substructure recommendations are computed based on 18731 associations between spectral features and structural features. We call these associations "rules". These rules are discovered from GNPS spectral library (https://gnps.ucsd.edu) containing mass spectra of about 4000 known metabolites using association rule mining.
 
 ### Notice
 #### MESSAR is developed for processing single MS/MS spectrum in **positive ion mode**.
@@ -49,7 +49,7 @@ Substructure recommendations are computed based on 18731 associations between sp
 
 #### 3. The input spectrum is meanwhile annotated by a decoy rule database originated from target rules. The statistical scores of annotated decoy rules are used to filter spurious annotations. FDR control plot: mcc and lift distribution of target and decoy rules; scatter plot between mcc and lift. The red lines indicate the thresholds found allowing an estimated FDR under 0.05 (under 5% of all matched rules are decoy rules).
 
-### C) Annotated features
+### C) Sub-structure suggestions
 
 #### The tab panel displays all annotated substructures after combining rules predicting the same substructure.  
 

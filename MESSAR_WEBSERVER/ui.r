@@ -6,6 +6,7 @@ library(formattable)
 library(stringr)
 require(DT, quietly = TRUE) 
 library(prozor)
+library(markdown)
 
 load("rule_db_multiple_sub_raw.RData")
 source('helper.r')
@@ -93,6 +94,8 @@ shinyUI(navbarPage("MESSAR 0.1 (MEtabolite SubStructure Auto-Recommender)",
        br(),
        dataTableOutput("table1"),
        br(),
+       downloadButton("annotated_rules", "Download matched rules",style='padding:6px; font-size:150%'),
+       br(),
        plotOutput("plot_fdr",width = '1600px')
        ),
 
@@ -109,7 +112,9 @@ shinyUI(navbarPage("MESSAR 0.1 (MEtabolite SubStructure Auto-Recommender)",
        br(),
        h3("Here is the list of suggested substructures:"), 
        br(),
-       dataTableOutput("table2")),
+       dataTableOutput("table2"),
+       br(),
+       downloadButton("annotated_substructures", "Download substructures",style='padding:6px; font-size:150%')),
        
        column(5,
        br(),

@@ -10,6 +10,7 @@ library(formattable)
 library(stringr)
 require(DT, quietly = TRUE)
 library(prozor)
+library(markdown)
 
 load("rule_db_multiple_sub_raw.RData")
 source('helper.r')
@@ -294,6 +295,27 @@ output$table1 <- renderDataTable({
     })
   })
 
+
+output$annotated_rules<-downloadHandler(
+  
+  filename = function(){
+    "annotated_rules.txt"},
+  
+  content = function(file) {
+    
+    columns = c('SPECTRAL_FEATURE_TYPE', 'SPECTRAL_FEATURE', 'SUBSTRUCTURE', 'LIFT', 'MCC')
+    new_columns = c("TYPE","FEATURE","SUBSTRUCTURE", "LIFT", "MCC")
+    
+    rules_extracted = process_rules()$rules_extracted
+    
+    if (nrow(rules_extracted)>0){
+      rules_extracted = rules_extracted[,columns]
+      if (nrow(rules_extracted)==1){rules_extracted=matrix(rules_extracted, 1, dimnames=list(NULL,new_columns))
+      } else {colnames(rules_extracted)=new_columns}
+    write.table(rules_extracted, file,sep="\t",dec=".",row.names=F,col.names=T)}},
+  contentType = "text"
+)
+  
 RER_generator <-reactive({
   
   rules_aggregated = process_rules()$rules_aggregated
@@ -339,6 +361,22 @@ output$table2 <- renderDataTable({
     return(rule_table)
     })
   })
+
+
+output$annotated_substructures<-downloadHandler(
+  
+  filename = function(){
+    "annotated_substructures.txt"},
+  
+  content = function(file) {
+
+    RER = RER_generator()
+    write.table(RER, file,sep="\t",dec=".",row.names=F,col.names=T)},
+  
+  contentType = "text"
+)
+
+
 
 selected_substructures <- eventReactive(input$table2_rows_selected,{
   RER_generator()$SUBSTRUCTURE[c(input$table2_rows_selected)]
