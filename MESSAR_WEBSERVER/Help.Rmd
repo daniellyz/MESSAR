@@ -6,17 +6,68 @@ This is an automated approach for substructure recommendation from MS/MS spectra
 
 Our goal is not to identify the structure of the entire molecule, but to propose potential substructures to experts, helping them better characterize the unknown e.g. identifying functional classes, grouping similar spectra and supporting NMR-based de novo identification etc.
 
-Substructure recommendations are computed based on 18731 associations between spectral features and structural features, i.e. rules. These rules are discovered from GNPS spectral library (https://gnps.ucsd.edu) containing mass spectra of about 4000 known metabolites using association rule mining.
+Substructure recommendations are computed based on 18731 associations between spectral features and structural features. We call these associations "rules". These rules are discovered from GNPS spectral library (https://gnps.ucsd.edu) containing mass spectra of about 4000 known metabolites using association rule mining.
 
 ### Notice
 #### MESSAR is developed for processing single MS/MS spectrum in **positive ion mode**.
 
 ### A) Start a run
 
-![Table 1.](https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER/demo/demo1.JPG){ width=50% }
+![Table 1.](https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER/demo/demo1.JPG)
 
-1. MS/MS spectrum is compulsory for running the web tool. It must be in either format: i) one column of m/z value ii) two columns m/z - intensity, separated by tab or space.
+#### 1. MS/MS spectrum is compulsory for running the web tool. It must be in either format: i) one column of m/z value ii) two columns m/z - intensity, separated by tab or space.
 
-2. Mass differences (losses) used for substructure prediction can be specified (values in one column). It is useful when users are only interested in certain mass differences in the spectrum. If not specified, all mass differences in the spectrum will be used to compute substructures.
+#### 2. Mass differences (losses) used for substructure prediction can be specified (values in one column). It is useful when users are only interested in certain mass differences in the spectrum. If not specified, all mass differences in the spectrum will be used to compute substructures.
 
-3. Precursor m/z is a recommended input (if known by users). It can be important because when MS/MS spectra do not contain the precursor ion, mass differences between precursor and fragments i.e. neutral losses can be overlooked.
+#### 3. Precursor m/z is a recommended input (if known by users). It can be important because when MS/MS spectra do not contain the precursor ion, mass differences between precursor and fragments i.e. neutral losses can be overlooked.
+
+#### 4. Relative intensity threshold is used to filter low-intensity peaks: peaks below the intensity threshold (percentage of the highest peak) will not be used for substructure recommendation
+
+#### 5. Error (ppm) allowed when annotating spectral features (experimental masses) with our rules. We note that our rules are associations between exact masses and substructures.
+
+#### 6. If ticked, we apply a FDR-control algorithm to filter potential spurious rules. This step might filter up to 80% predicted substructures, and is strongly recommend when your spectrum is "noisy".  
+
+#### 7. Once the analysis is complete, a message will be displayed. Users are invited to check the results in tab panels B and C if substructures are recommended. There will be an error message if the input format is not valid or no substructure is found. In the latter case, users can decrease the relative intensity threshold or increase tolerance window, then retry the analysis. They can also start a complete new run by clicking on "clear" button.
+
+### B) Annotated features
+
+#### The tab panel displays all MESSAR rules that matched with MS/MS features of input spectrum. It can also be seen as substructure annotations of every MS/MS feature 
+
+![Table 2.](https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER/demo/demo2.JPG)
+
+#### 1. Summary of number of rules and total number of substructure recommended before and after FDR control.
+
+#### 2. A table of all matched rules:
+
+* TYPE: type of spectral feature in the body of the rule. For example, "[mass, mass_diff]" means that the rule predicts the substructure based on the co-presence of a fragment and a loss in the input spectrum.
+
+* FEATURE: m/z values of corresponding fragments or losses
+
+* SUBSTRUCTURE: SMILES code of predicted substructure
+
+* MCC and LIFT: scores measuring the statistical significance of matched rules. Two scores are complementary for finding meaningful rules. The higher the score is, the more confident is the rule for substructure prediction. User can sort the table using either score.
+
+#### 3. The input spectrum is meanwhile annotated by a decoy rule database originated from target rules. The statistical scores of annotated decoy rules are used to filter spurious annotations. FDR control plot: mcc and lift distribution of target and decoy rules; scatter plot between mcc and lift. The red lines indicate the thresholds found allowing an estimated FDR under 0.05 (under 5% of all matched rules are decoy rules).
+
+### C) Annotated features
+
+#### The tab panel displays all annotated substructures after combining rules predicting the same substructure.  
+
+![Table 3.](https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER/demo/demo3.JPG)
+
+#### 1. The method used to score substructures. User can choose between sum/median of lift/mcc/confidence. Sum of lift or mcc is recommended because the likelihood of presence improves if several spectral features suggest the same substructure.
+
+#### 2. A ranked list of substructure recommendations (according to the user-defined score)
+
+#### 3. Score distribution of substructures. The arrow indicates the score of substructure selected by user in the table.
+
+#### 4. Input MS/MS spectrum. The red peaks and arrows indicate fragments and losses that recommend the substructure selected by user. 
+
+
+
+
+
+
+
+
+
