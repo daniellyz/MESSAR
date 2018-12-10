@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 mcc_calculator<-function(rules){
   P_A_B = rules$support/rules$Py
   tpr = rules$support
@@ -8,6 +10,7 @@ mcc_calculator<-function(rules){
   return(MCC)
 }
 
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
 search_rules<-function(ref_feature, ref_feature_type, mass, mass_diff, ppm_search){
   
   # Combine masses:
@@ -70,13 +73,33 @@ fn <- function(x, y){
 numextract <- function(string){as.numeric(str_extract(string, "\\-*\\d+\\.*\\d*"))} 
 
 aggregate_rules <- function(rules_extracted){
+<<<<<<< HEAD
+  
+=======
 
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
   # Group rules by their substructure
   
   combined_type = aggregate(rules_extracted$SPECTRAL_FEATURE_TYPE, list(rules_extracted$SUBSTRUCTURE), toString)[,2]
   combined_features = aggregate(rules_extracted$SPECTRAL_FEATURE, list(rules_extracted$SUBSTRUCTURE), toString)[,2]
   combined_type = sapply(combined_type, clean_feature_text)
   combined_features = sapply(combined_features, clean_feature_text)
+<<<<<<< HEAD
+  
+  sum_confidence = aggregate(rules_extracted$CONFIDENCE, list(rules_extracted$SUBSTRUCTURE), sum)
+  sum_lift = aggregate(rules_extracted$LIFT, list(rules_extracted$SUBSTRUCTURE), sum)[,2]
+  sum_mcc = aggregate(rules_extracted$MCC, list(rules_extracted$SUBSTRUCTURE), sum)[,2]
+  sum_f1 = aggregate(rules_extracted$F1, list(rules_extracted$SUBSTRUCTURE), sum)[,2]
+  sum_aggregated = cbind.data.frame(sum_confidence,sum_lift,sum_mcc, sum_f1)
+  colnames(sum_aggregated) = c("SUBSTRUCTURE", "CONFIDENCE", "LIFT","MCC","F1")
+  
+  median_confidence = aggregate(rules_extracted$CONFIDENCE, list(rules_extracted$SUBSTRUCTURE), median)
+  median_lift = aggregate(rules_extracted$LIFT, list(rules_extracted$SUBSTRUCTURE), median)[,2]
+  median_mcc = aggregate(rules_extracted$MCC, list(rules_extracted$SUBSTRUCTURE), median)[,2]
+  median_f1 = aggregate(rules_extracted$F1, list(rules_extracted$SUBSTRUCTURE), median)[,2]
+  median_aggregated = cbind.data.frame(median_confidence,median_lift,median_mcc,median_f1)
+  colnames(median_aggregated) = c("SUBSTRUCTURE", "CONFIDENCE", "LIFT","MCC","F1")
+=======
 
   sum_confidence = aggregate(rules_extracted$CONFIDENCE, list(rules_extracted$SUBSTRUCTURE), sum)
   sum_lift = aggregate(rules_extracted$LIFT, list(rules_extracted$SUBSTRUCTURE), sum)[,2]
@@ -89,12 +112,19 @@ aggregate_rules <- function(rules_extracted){
   median_mcc = aggregate(rules_extracted$MCC, list(rules_extracted$SUBSTRUCTURE), median)[,2]
   median_aggregated = cbind.data.frame(median_confidence,median_lift,median_mcc)
   colnames(median_aggregated) = c("SUBSTRUCTURE", "CONFIDENCE", "LIFT","MCC")
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
   
   max_confidence = aggregate(rules_extracted$CONFIDENCE, list(rules_extracted$SUBSTRUCTURE), max)
   max_lift = aggregate(rules_extracted$LIFT, list(rules_extracted$SUBSTRUCTURE), max)[,2]
   max_mcc = aggregate(rules_extracted$MCC, list(rules_extracted$SUBSTRUCTURE), max)[,2]
+<<<<<<< HEAD
+  max_f1 = aggregate(rules_extracted$F1, list(rules_extracted$SUBSTRUCTURE), max)[,2]
+  max_aggregated = cbind.data.frame(max_confidence,max_lift,max_mcc,max_f1)
+  colnames(max_aggregated) = c("SUBSTRUCTURE", "CONFIDENCE", "LIFT","MCC","F1")
+=======
   max_aggregated = cbind.data.frame(max_confidence,max_lift,max_mcc)
   colnames(max_aggregated) = c("SUBSTRUCTURE", "CONFIDENCE", "LIFT","MCC")
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
   
   return(list(type=combined_type, features=combined_features, 
               sum_aggregated=sum_aggregated, median_aggregated=median_aggregated, max_aggregated=max_aggregated))
@@ -128,6 +158,8 @@ clean_feature_text <- function(feature){
   return(feature)
 }
 
+<<<<<<< HEAD
+=======
 fdr_compute <- function(rules, decoy, fdr_thr){
   
   combined_label = c(rep("Target", nrow(rules)), rep("Decoy", nrow(decoy)))
@@ -170,6 +202,7 @@ fdr_compute <- function(rules, decoy, fdr_thr){
   return(list(max_size = max_size, mcc_min = mcc_min, lift_min = lift_min, fdr = fdr))
 }
 
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
 rule_mass_match<-function(rule_types, rule_features, masslist, ppm_search){
   
   # The function match back comobined rules to raw masslist
@@ -209,5 +242,18 @@ rule_mass_match<-function(rule_types, rule_features, masslist, ppm_search){
   return(list(index1=index1, index2=index2))
 }
   
+<<<<<<< HEAD
+get_spectrum_list <- function(dat){
   
+  spectrum_list = list()
+  for (i in 1:length(dat)){
+    spectrum = cbind(dat[[i]]@mz, dat[[i]]@intensity)
+    spectrum = matrix(spectrum, ncol=2)
+    spectrum_list[[i]] = spectrum
+  }
+  return(spectrum_list)
+}
+=======
+  
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
   

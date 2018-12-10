@@ -1,6 +1,11 @@
 options(stringsAsFactors = F)
 options(warn=-1)
 options(shiny.maxRequestSize=60*1024^2)
+<<<<<<< HEAD
+options(repos = BiocManager::repositories())
+#getOption("repos")
+=======
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
 
 library(shiny)
 library("V8")
@@ -10,12 +15,26 @@ library(formattable)
 library(stringr)
 require(DT, quietly = TRUE)
 library(prozor)
+<<<<<<< HEAD
+#library(ChemmineOB)
+
+load("rules_db.RData")
+source('helper.r')
+
+# Filter 1% FDR:
+
+valid = which(rules$F1>=thr)
+rules =  rules[valid,]
+rules_feature = rules_feature[valid]
+rules_type = rules_type[valid]
+=======
 library(markdown)
 
 load("rule_db_multiple_sub_raw.RData")
 source('helper.r')
 colnames(decoy) = toupper(colnames(decoy))
 colnames(rules) = toupper(colnames(rules))
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
 
 #library(rsconnect)
 #deployApp(server="shinyapps.io",appName="MESSAR")
@@ -85,11 +104,27 @@ shinyServer(function(input, output,clientData, session) {
         intlist = c(intlist, max(intlist)*1.1)
       }}
       
+<<<<<<< HEAD
+      # Filter relative intensity
+      
+      kept = which(intlist/max(intlist)>=input$Relative/100)
+      intlist = intlist[kept]  
+      masslist = masslist[kept]
+      
+      # Filter top peaks
+      if (input$max_peaks>0){
+        max_peaks = min(input$max_peaks, length(masslist))
+        kept_index = order(intlist, decreasing = T)[1:max_peaks]
+        intlist = intlist[kept_index]  
+        masslist = masslist[kept_index]}
+      }
+=======
       # Filter intensity
       
       kept = which(intlist/max(intlist)>=input$Relative/100)
       intlist = intlist[kept]  
       masslist = masslist[kept]}
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
     
     if (input$blank_file2!=""){
       input_str=input$blank_file2
@@ -106,16 +141,32 @@ shinyServer(function(input, output,clientData, session) {
     list(masslist=masslist, intlist=intlist, massdiff=massdiff, message=mms,valid=valid)
   })
   
+<<<<<<< HEAD
+observeEvent(input$exampleButton1, {
+  
+  fileText <- paste(readLines("https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER_DEMO/example_cinnarizine.txt"), collapse = "\n")
+  updateTextAreaInput(session, "blank_file1", value = fileText)
+})  
+
+
+observeEvent(input$exampleButton2, {
+  
+  fileText <- paste(readLines("https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER_DEMO/example_glutathion.txt"), collapse = "\n")
+=======
 observeEvent(input$exampleButton, {
   
   fileText <- paste(readLines("https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER/example_casmi_2017_172.txt"), collapse = "\n")
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
   updateTextAreaInput(session, "blank_file1", value = fileText)
 })  
   
 find_rules <- eventReactive(input$goButton,{
 
     rules_extracted = NULL
+<<<<<<< HEAD
+=======
     decoy_extracted = NULL
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
     selected_index = NULL
     mms = ""
     
@@ -135,6 +186,10 @@ find_rules <- eventReactive(input$goButton,{
           colnames(rules_extracted) = colnames(rules)}
         
         rules_extracted$MCC = round(rules_extracted$MCC, 2) # Round to improve display
+<<<<<<< HEAD
+        rules_extracted$F1 = round(rules_extracted$F1, 2) # Round to improve display
+        rules_extracted$LIFT = round(rules_extracted$LIFT, 2)
+=======
         rules_extracted$CONFIDENCE = round(rules_extracted$CONFIDENCE, 2) # Round to improve display
         rules_extracted$LIFT = round(rules_extracted$LIFT, 2)
 
@@ -147,6 +202,7 @@ find_rules <- eventReactive(input$goButton,{
             colnames(decoy_extracted) = colnames(decoy)
           }
         }}
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
   
       mms = "Annotation succeeded! Please check panel B) then C)!"}
         
@@ -154,8 +210,12 @@ find_rules <- eventReactive(input$goButton,{
       mms = "No substructure recommended!"} 
     }
     
+<<<<<<< HEAD
+    list(selected_index=selected_index,rules_extracted=rules_extracted, message=mms)
+=======
     list(selected_index=selected_index,rules_extracted=rules_extracted,
         decoy_extracted = decoy_extracted, message=mms)
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
 })
   
 observeEvent(input$goButton,{
@@ -165,7 +225,11 @@ observeEvent(input$goButton,{
     Sys.sleep(1)
     setProgress(message=check_input()$message)
     if (check_input()$valid==1){
+<<<<<<< HEAD
+      setProgress(message="Annotating substructures by rule databases...")
+=======
       setProgress(message="Annotating substructures by target and decoy rule databases...")
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
       Sys.sleep(1)
       setProgress(message=find_rules()$message)
     }
@@ -184,14 +248,27 @@ process_rules <- reactive({
   # Depend on fdr threshold, filter rules extracted and calculate aggregated rules
   
   rules_extracted = find_rules()$rules_extracted
+<<<<<<< HEAD
+  rules_aggregated = NULL
+  
+  NR = nrow(rules_extracted)
+  NS = length(unique(rules_extracted$SUBSTRUCTURE))
+=======
   decoy_extracted = find_rules()$decoy_extracted
   
   NR0 = nrow(rules_extracted)
   NS0 = length(unique(rules_extracted$SUBSTRUCTURE))
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
   ms = ""
   thr1 = 0
   thr2 = 0
   
+<<<<<<< HEAD
+  if (!is.null(rules_extracted)){
+    if ((nrow(rules_extracted)>0)){
+      ms = paste0(NR, " rules and ", NS, " substructures found !")
+      rules_aggregated = aggregate_rules(rules_extracted)}}
+=======
   if (!is.null(rules_extracted) & !is.null(decoy_extracted)){ 
   
   if ((nrow(rules_extracted)>0) & (input$fdr_control)){
@@ -215,10 +292,14 @@ process_rules <- reactive({
    ms = "No FDR filtering Possible! All rules and substructures are kept!"}}}
   
   rules_aggregated = aggregate_rules(rules_extracted)
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
   
   output$blank_message2 = renderUI({
     HTML(ms)
   })
+<<<<<<< HEAD
+  list(rules_extracted=rules_extracted, rules_aggregated = rules_aggregated)
+=======
   list(rules_extracted=rules_extracted, rules_aggregated = rules_aggregated, thr1 = thr1, thr2 = thr2)
 })
 
@@ -266,6 +347,7 @@ output$plot_fdr <- renderPlot({
   legend("topright", c("Target", "Decoy"), col=c( rgb(0,0,1,0.5), rgb(1,0,0,0.5)), lwd=10, text.font=2, cex=1.5)
   box()
   }}}
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
 })
 
 
@@ -277,8 +359,13 @@ output$table1 <- renderDataTable({
     setProgress(message="Generating annotation results...")
     Sys.sleep(1)
     
+<<<<<<< HEAD
+    columns = c('SPECTRAL_FEATURE_TYPE', 'SPECTRAL_FEATURE', 'SUBSTRUCTURE', 'LIFT', 'MCC','F1')
+    new_columns = c("TYPE","FEATURE","SUBSTRUCTURE", "LIFT", "MCC","F1")
+=======
     columns = c('SPECTRAL_FEATURE_TYPE', 'SPECTRAL_FEATURE', 'SUBSTRUCTURE', 'LIFT', 'MCC')
     new_columns = c("TYPE","FEATURE","SUBSTRUCTURE", "LIFT", "MCC")
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
     
     rules_extracted = process_rules()$rules_extracted
 
@@ -289,12 +376,18 @@ output$table1 <- renderDataTable({
       if (nrow(rules_extracted)==1){rules_extracted=matrix(rules_extracted, 1, dimnames=list(NULL,new_columns))
       } else {colnames(rules_extracted)=new_columns}
     
+<<<<<<< HEAD
+    rule_table=datatable(rules_extracted,escape=c(TRUE,TRUE,TRUE,TRUE,TRUE,TRUE), rownames = F)}
+=======
     rule_table=datatable(rules_extracted,escape=c(TRUE,TRUE,TRUE,TRUE,TRUE), rownames = F)}
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
   
     return(rule_table)
     })
   })
 
+<<<<<<< HEAD
+=======
 
 output$annotated_rules<-downloadHandler(
   
@@ -316,6 +409,7 @@ output$annotated_rules<-downloadHandler(
   contentType = "text"
 )
   
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
 RER_generator <-reactive({
   
   rules_aggregated = process_rules()$rules_aggregated
@@ -323,6 +417,12 @@ RER_generator <-reactive({
   
   if (!is.null(rules_aggregated)){
     
+<<<<<<< HEAD
+    if (input$score_type=="F1"){RER = eval_rules_aggregated(rules_aggregated, "SUM", "F1", 0)}
+    if (input$score_type=="L1"){RER = eval_rules_aggregated(rules_aggregated, "SUM", "LIFT", 0)}
+    if (input$score_type=="M1"){RER = eval_rules_aggregated(rules_aggregated, "SUM", "MCC", 0)}
+  }
+=======
     if (input$score_type=="L1"){RER = eval_rules_aggregated(rules_aggregated, "SUM", "LIFT", 0)}
     if (input$score_type=="L2"){RER = eval_rules_aggregated(rules_aggregated, "MEDIAN", "LIFT", 0)}
     if (input$score_type=="M1"){RER = eval_rules_aggregated(rules_aggregated, "SUM", "MCC", 0)}
@@ -330,6 +430,7 @@ RER_generator <-reactive({
     if (input$score_type=="C1"){RER = eval_rules_aggregated(rules_aggregated, "SUM", "CONFIDENCE", 0)}
     if (input$score_type=="C2"){RER = eval_rules_aggregated(rules_aggregated, "MEDIAN", "CONFIDENCE", 0)}}
   
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
   return(RER)
 })
 
@@ -347,7 +448,11 @@ output$table2 <- renderDataTable({
     # Add image:
     
     setProgress(message="Generating substructure visualization...")
+<<<<<<< HEAD
+    id_substructure = match(RER$SUBSTRUCTURE, substructure_db$SUBSTRUCTURE)
+=======
     id_substructure = match(RER$SUBSTRUCTURE, substructure_db$substructure)
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
     id_substructure = substructure_db$ID[id_substructure]
     RER$IMG = paste0('<img src=','"', id_substructure,'.png" height="150"></img>') 
     RER = RER[,c(1,3,2)]
@@ -356,12 +461,18 @@ output$table2 <- renderDataTable({
       if (nrow(RER)==1){
         RER=matrix(RER, 1 , dimnames=list(NULL,colnames(RER)))} 
     
+<<<<<<< HEAD
+    rule_table=datatable(RER,escape=c(TRUE,FALSE,TRUE), rownames = F,  selection = "single", options = list(pageLength=10))}
+=======
     rule_table=datatable(RER,escape=c(TRUE,FALSE,TRUE), rownames = F,  selection = "single", options = list(pageLength=5))}
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
     
     return(rule_table)
     })
   })
 
+<<<<<<< HEAD
+=======
 
 output$annotated_substructures<-downloadHandler(
   
@@ -378,6 +489,7 @@ output$annotated_substructures<-downloadHandler(
 
 
 
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
 selected_substructures <- eventReactive(input$table2_rows_selected,{
   RER_generator()$SUBSTRUCTURE[c(input$table2_rows_selected)]
 })

@@ -13,7 +13,11 @@
 
 ### A) Start a run
 
+<<<<<<< HEAD
+![Figure 1](https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER_DEMO/demo1.jpg)
+=======
 ![Table 1.](https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER/demo/demo1.JPG)
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
 
 #### 1. MS/MS spectrum is compulsory for running the web tool. It must be in either format: i) one column of m/z value ii) two columns m/z - intensity, separated by tab or space.
 
@@ -23,19 +27,35 @@
 
 #### 4. Relative intensity threshold is used to filter low-intensity peaks: peaks below the intensity threshold (percentage of the highest peak) will not be used for substructure recommendation
 
+<<<<<<< HEAD
+#### 5. N most intense peaks are used for substructure prediction. Please put 0 if all peaks are considered and spectra filtering will be only based on relative intensity threshold.   
+
+#### 6. Error (ppm) allowed when annotating spectral features (experimental masses) with our rules. We note that our rules are associations between exact masses and substructures.
+
+#### 7. Please click on "Submit" to start substructure recommendation. User can start a complete new run or stop at anytime during the analysis by clicking on "clear" button.
+
+#### 8. Once the analysis is complete, a message will be displayed. Users are invited to check the results in tab panels B and C if substructures are recommended. There will be an error message if the input format is not valid or no substructure is found. In the latter case, the problem might be solved by decreasing the relative intensity threshold or by increasing tolerance window.
+=======
 #### 5. Error (ppm) allowed when annotating spectral features (experimental masses) with our rules. We note that our rules are associations between exact masses and substructures.
 
 #### 6. If ticked, we apply a FDR-control algorithm to filter potential spurious rules. This step might filter up to 80% predicted substructures, and is strongly recommend when your spectrum is "noisy".  
 
 #### 7. Once the analysis is complete, a message will be displayed. Users are invited to check the results in tab panels B and C if substructures are recommended. There will be an error message if the input format is not valid or no substructure is found. In the latter case, users can decrease the relative intensity threshold or increase tolerance window, then retry the analysis. They can also start a complete new run by clicking on "clear" button.
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
 
 ### B) Annotated features
 
 #### The tab panel displays all MESSAR rules that matched with MS/MS features of input spectrum. It can also be seen as substructure annotations of every MS/MS feature 
 
+<<<<<<< HEAD
+![Table 2.](https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER_DEMO/demo2.jpg)
+
+#### 1. Summary of number of rules and total number of substructure recommended
+=======
 ![Table 2.](https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER/demo/demo2.JPG)
 
 #### 1. Summary of number of rules and total number of substructure recommended before and after FDR control.
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
 
 #### 2. A table of all matched rules:
 
@@ -45,24 +65,38 @@
 
 * SUBSTRUCTURE: SMILES code of predicted substructure
 
+<<<<<<< HEAD
+* LIFT, MCC and F-score: all scores measure the statistical significance of matched rules. Although F-score is recommended, two other scores can be complementary for finding meaningful rules. The higher the score is, the more confident is the rule for substructure prediction. User can sort the table using either score.
+=======
 * MCC and LIFT: scores measuring the statistical significance of matched rules. Two scores are complementary for finding meaningful rules. The higher the score is, the more confident is the rule for substructure prediction. User can sort the table using either score.
 
 #### 3. The input spectrum is meanwhile annotated by a decoy rule database originated from target rules. The statistical scores of annotated decoy rules are used to filter spurious annotations. FDR control plot: mcc and lift distribution of target and decoy rules; scatter plot between mcc and lift. The red lines indicate the thresholds found allowing an estimated FDR under 0.05 (under 5% of all matched rules are decoy rules).
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
 
 ### C) Sub-structure suggestions
 
 #### The tab panel displays all annotated substructures after combining rules predicting the same substructure.  
 
+<<<<<<< HEAD
+![Table 3.](https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER_DEMO/demo3.jpg)
+
+#### 1. The method used to score substructures. User can choose between sum of F-score/lift/mcc. We use sum because the likelihood of presence improves if several spectral features suggest the same substructure. F-score is recommended, although lift can sometimes be helpful to find uncommon but interesting substructures.
+=======
 ![Table 3.](https://raw.githubusercontent.com/daniellyz/MESSAR/master/MESSAR_WEBSERVER/demo/demo3.JPG)
 
 #### 1. The method used to score substructures. User can choose between sum/median of lift/mcc/confidence. Sum of lift or mcc is recommended because the likelihood of presence improves if several spectral features suggest the same substructure.
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
 
 #### 2. A ranked list of substructure recommendations (according to the user-defined score)
 
 #### 3. Score distribution of substructures. The arrow indicates the score of substructure selected by user in the table.
 
+<<<<<<< HEAD
+#### 4. Input MS/MS spectrum. The red peaks and arrows indicate fragments and losses that recommend the substructure selected by user.
+=======
 #### 4. Input MS/MS spectrum. The red peaks and arrows indicate fragments and losses that recommend the substructure selected by user. 
 
+>>>>>>> 7b7522d0affa0d7a817f5252d04e620560b84c0e
 
 
 
